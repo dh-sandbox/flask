@@ -232,6 +232,14 @@ commands = [
     ],
 ]
 
+[tool.tox.env.coverage]
+description = "pytest with code coverage"
+package = "editable"
+commands = [[
+    "pytest", "-v", "--tb=short", "--basetemp={env_tmp_dir}",
+    "--cov=src/flask", "--cov-report=xml",
+]]
+
 [tool.tox.env.style]
 description = "run all pre-commit hooks on all files"
 dependency_groups = ["pre-commit"]
