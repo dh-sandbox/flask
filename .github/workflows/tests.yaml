@@ -47,15 +47,9 @@ jobs:
         if: matrix.coverage
       - name: Debug coverage paths
         if: matrix.coverage
-        run: head -5 coverage.xml && python -c "
-import xml.etree.ElementTree as ET
-tree = ET.parse('coverage.xml')
-root = tree.getroot()
-for s in root.findall('.//source'):
-    print(f'Source: {s.text}')
-for c in root.findall('.//class')[:5]:
-    print(f'File: {c.get(\"filename\")}')
-"
+        run: |
+          head -20 coverage.xml
+          grep -o 'filename="[^"]*"' coverage.xml | head -5
       - name: Upload coverage to Qlty
         if: matrix.coverage
         uses: qltysh/qlty-action/coverage@v2
