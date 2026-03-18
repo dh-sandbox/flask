@@ -237,7 +237,7 @@ description = "pytest with code coverage"
 package = "editable"
 commands = [[
     "pytest", "-v", "--tb=short", "--basetemp={env_tmp_dir}",
-    "--cov=src/flask", "--cov-report=xml",
+    "--cov=src", "--cov-report=xml",
 ]]
 
 [tool.tox.env.style]

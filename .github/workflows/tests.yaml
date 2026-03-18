@@ -45,18 +45,13 @@ jobs:
           TOX_ENV: ${{ matrix.tox || format('py{0}', matrix.python) }}
       - run: uv run --locked tox run -e coverage
         if: matrix.coverage
-      - name: Debug coverage paths
-        if: matrix.coverage
-        run: |
-          head -20 coverage.xml
-          grep -o 'filename="[^"]*"' coverage.xml | head -5
       - name: Upload coverage to Qlty
         if: matrix.coverage
         uses: qltysh/qlty-action/coverage@v2
         with:
           token: ${{ secrets.QLTY_COVERAGE_TOKEN }}
           files: coverage.xml
-          verbose: true
+          add-prefix: src/
   typing:
     runs-on: ubuntu-latest
     steps:
