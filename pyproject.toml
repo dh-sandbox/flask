@@ -59,6 +59,7 @@ tests = [
     "asgiref",
     "greenlet",
     "pytest",
+    "pytest-cov",
     "python-dotenv",
 ]
 typing = [
@@ -230,6 +231,14 @@ commands = [
         {replace = "posargs", default = [], extend = true},
     ],
 ]
+
+[tool.tox.env.coverage]
+description = "pytest with code coverage"
+package = "editable"
+commands = [[
+    "pytest", "-v", "--tb=short", "--basetemp={env_tmp_dir}",
+    "--cov=src", "--cov-report=xml",
+]]
 
 [tool.tox.env.style]
 description = "run all pre-commit hooks on all files"

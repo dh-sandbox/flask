@@ -21,7 +21,7 @@ jobs:
           - {python: '3.14t'}
           - {name: Windows, python: '3.14', os: windows-latest}
           - {name: Mac, python: '3.14', os: macos-latest}
-          - {python: '3.13'}
+          - {python: '3.13', coverage: true}
           - {python: '3.12'}
           - {python: '3.11'}
           - {python: '3.10'}
@@ -40,8 +40,18 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
       - run: uv run --locked tox run
+        if: ${{ !matrix.coverage }}
         env:
           TOX_ENV: ${{ matrix.tox || format('py{0}', matrix.python) }}
+      - run: uv run --locked tox run -e coverage
+        if: matrix.coverage
+      - name: Upload coverage to Qlty
+        if: matrix.coverage
+        uses: qltysh/qlty-action/coverage@v2
+        with:
+          token: ${{ secrets.QLTY_COVERAGE_TOKEN }}
+          files: coverage.xml
+          add-prefix: src/
   typing:
     runs-on: ubuntu-latest
     steps:
